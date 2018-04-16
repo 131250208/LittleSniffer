@@ -1,0 +1,8 @@
+@CHARSET "UTF-8";
+
+input#command {
+	width: 100%;
+}
+textarea#terminal {
+	width: 100%;
+}
