@@ -1,8 +1,5 @@
 package com.mysniffer.jtest;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,16 +10,17 @@ public class ServicesTest extends BasicTest {
 	@Autowired
 	PackageService pService;
 
+	@Test
 	public void test() {
-		pService.capture_packages();
+		// try {
+		// pService.capture_packages_Pcap4j();
+		// } catch (Exception e) {
+		// // TODO: handle exception
+		// System.out.println(e);
+		// }
+
+		String string = pService.getDevicesList();
+		System.out.println(string);
 	}
 
-	@Test
-	public void testRegex() {
-		Pattern pattern = Pattern.compile("(.*?) (.*)");
-		String str = "setdev 1";
-		Matcher m = pattern.matcher(str);
-		m.find();
-		System.out.println(String.format("c: %s, p: %s", m.group(1), m.group(2)));
-	}
 }

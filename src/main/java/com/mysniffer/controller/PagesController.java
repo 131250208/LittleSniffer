@@ -6,13 +6,21 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("")
-public class NewsController {
+public class PagesController {
 
 	@RequestMapping("/terminal")
-	public ModelAndView get_search_page() {
+	public ModelAndView getPageTerminal() {
 
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("terminal");
+		return mav;
+	}
+
+	@RequestMapping("/userInterface")
+	public ModelAndView getPageUserInterface() {
+
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("userInterface");
 		return mav;
 	}
 

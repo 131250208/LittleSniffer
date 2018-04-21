@@ -14,12 +14,12 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(myHandler(), "/myHandler").addInterceptors(new WebSocketInterceptor());
+		registry.addHandler(UIHandler(), "/UIHandler").addInterceptors(new WebSocketInterceptor());
 	}
 
 	@Bean
-	public WebSocketHandler myHandler() {
-		return new MyHandler();
+	public WebSocketHandler UIHandler() {
+		return new MyUIHandler();
 	}
 
 }

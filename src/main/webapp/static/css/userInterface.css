@@ -1,0 +1,42 @@
+@CHARSET "UTF-8";
+
+input#filter {
+	width: 100%;
+	background-color: transparent;
+	color: #fff;
+}
+
+#bindata {
+	width: 100%;
+}
+
+#basic_info {
+	
+}
+
+#detail_info{
+	margin-top: 20px;
+}
+.table-responsive {
+	margin-top: 15px;
+	background-color: #5e5e5e;
+	color: #ffffff;
+	overflow: visible;
+	max-height: 500px;
+}
+
+.table-responsive > table{
+	margin-bottom: 0px;
+}
+
+.table-responsive tbody tr:nth-of-type(2n+1) {
+	color: #333333;
+}
+
+.table-responsive th, td {
+	text-align: center;
+}
+
+.table-responsive tr.warning {
+	color: #333333;
+}

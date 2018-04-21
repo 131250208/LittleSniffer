@@ -40,7 +40,7 @@
  	<mvc:resources location="/js/" mapping="/scripts/**"/>
  	
  	-->
- 	<mvc:view-controller path="/" view-name="terminal"/>
+ 	<mvc:view-controller path="/" view-name="userInterface"/>
  	
     <!-- 视图定位 -->
     <bean
