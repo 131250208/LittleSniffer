@@ -2,9 +2,6 @@ package com.mysniffer.websocket;
 
 import java.io.IOException;
 
-import org.pcap4j.core.PacketListener;
-import org.pcap4j.packet.ArpPacket;
-import org.pcap4j.packet.Packet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.CloseStatus;
@@ -62,40 +59,9 @@ public class MyUIHandler extends TextWebSocketHandler {
 			int dev_num = Integer.parseInt(job.getString("dev_num"));
 			String filter = job.getString("filter");
 
-			// 初始化listener
-			PacketListener listener = new PacketListener() {
-				int num = 0;
+			// start capturing
+			packageService.capture_packages_Pcap4j(dev_num, filter, session);
 
-				@Override
-				public void gotPacket(Packet packet) {
-					System.out.println(String.format("------------------%d--------------------", ++num));
-					System.out.println("------------------header--------------------");
-					System.out.println(packet.getHeader());
-					System.out.println("------------------payload--------------------");
-					System.out.println(packet.getPayload());
-					System.out.println("------------------rawdata--------------------");
-					System.out.println(packet.getRawData());
-					System.out.println("------------------whole--------------------");
-					System.out.println(packet);
-
-					System.out.println(packet.getOuterOf(ArpPacket.class));
-					System.out.println(packet.get(ArpPacket.class));
-					System.out.println(packageService.getPacketInfoJSON(packet));
-
-					// ObjectMapper mapper = new ObjectMapper();
-					// String json_str = "";
-					// try {
-					// json_str = mapper.writerWithDefaultPrettyPrinter()
-					// .writeValueAsString(packageService.getPacketInfoJSON(packet));
-					// } catch (JsonProcessingException e) {
-					// // TODO Auto-generated catch block
-					// e.printStackTrace();
-					// }
-
-				}
-			};
-
-			packageService.capture_packages_Pcap4j(dev_num, filter, listener);
 			break;
 		default:
 			break;

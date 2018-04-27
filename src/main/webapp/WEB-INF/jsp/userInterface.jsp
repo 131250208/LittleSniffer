@@ -27,14 +27,11 @@
 
 <!-- 框架 -->
 <script src="<%=basePath%>static/js/jquery-3.3.1.min.js"></script>
-<link rel="stylesheet"
-	href="<%=basePath%>static/css/bootstrap.min.css">
+<link rel="stylesheet" href="<%=basePath%>static/css/bootstrap.min.css">
 <link rel="stylesheet"
 	href="<%=basePath%>static/css/bootstrap-select.min.css">
-<script
-	src="<%=basePath%>static/js/bootstrap.min.js"></script>
-<script
-	src="<%=basePath%>static/js/bootstrap-select.min.js"></script>
+<script src="<%=basePath%>static/js/bootstrap.min.js"></script>
+<script src="<%=basePath%>static/js/bootstrap-select.min.js"></script>
 
 
 
@@ -42,30 +39,63 @@
 
 <body background="<%=basePath%>static/images/bg.jpg">
 	<div class="container-fluid">
-		<form role="form" name="add_editor_type" novalidate onkeydown="if(event.keyCode==13){return false;}">
+		<form role="form" name="add_editor_type" novalidate
+			onkeydown="if(event.keyCode==13){return false;}">
 			<div class="container">
 				<div class="row" class="col-sm-12 col-xs-12">
-
-					<div class=" col-sm-2 col-xs-12">
-						<select id="devices_selector" class="selectpicker form-control" data-width="100%"
-							required>
-
+					<div class=" col-sm-3 col-xs-12">
+						<select id="devices_selector" class="selectpicker form-control"
+							data-width="100%" required>
 						</select>
 					</div>
 
-					<div class="col-sm-9 col-xs-12 ">
+					<div class="col-sm-8 col-xs-12 ">
 						<input type="text" id="filter" placeholder="filter"
 							class="form-control">
 					</div>
 					<div class="col-sm-1 col-xs-12">
-						<button type="button" id="capture" class="btn btn-primary">capture</button>
+						<button type="button" id="capture" class="btn btn-primary"
+							>capture</button>
+					</div>
+				</div>
+				<div id="filter_div" class="collapse">
+					<div class="row" class="col-sm-12 col-xs-12">
+						<div class="col-sm-3 col-xs-12">
+							<select id="type_filter_selector"
+								class="selectpicker form-control" data-width="100%" multiple>
+								<option>ARP</option>
+								<option>UDP</option>
+								<option>TCP</option>
+								<option>ICMP</option>
+								<option>IGMP</option>
+							</select>
+						</div>
+						<div class="col-sm-3 col-xs-12">
+							<input type="text" name="src_ip" placeholder="source ip address"
+								class="form-control">
+						</div>
+						<div class="col-sm-1 col-xs-12">
+							<input type="text" name="src_port" placeholder="port"
+								class="form-control">
+						</div>
+						<div class="col-sm-3 col-xs-12">
+							<input type="text" name="dest_ip"
+								placeholder="destination ip address" class="form-control">
+						</div>
+						<div class="col-sm-1 col-xs-12">
+							<input type="text" name="dest_port" placeholder="port"
+								class="form-control">
+						</div>
+						<div class="col-sm-1 col-xs-12">
+							<button type="button" id="filter" class="btn btn-info">&nbsp;&nbsp;filter&nbsp;&nbsp;</button>
+						</div>
 					</div>
 				</div>
 			</div>
 		</form>
 		<div class="container" id="basic_info">
 			<div class="table-responsive">
-				<table class="table table-striped">
+				<table class="table table-striped table_head">
 					<thead>
 						<tr>
 							<th>No.</th>
@@ -79,18 +109,29 @@
 					</thead>
 				</table>
 			</div>
-			<div class="table-responsive">
-				<table class="table table-striped">
+			<div class="table-responsive div_table_body">
+				<table class="table table-striped table_body table-hover">
+					<thead>
+						<tr>
+							<th>No.</th>
+							<th>Time</th>
+							<th>Source</th>
+							<th>Destination</th>
+							<th>Protocol</th>
+							<th>Length</th>
+							<th>Info</th>
+						</tr>
+					</thead>
 					<tbody>
-						<c:forEach var="i" begin="1" end="25">
+						<c:forEach var="i" begin="1" end="15">
 							<tr>
-								<td>${i}</td>
-								<td>151563.</td>
-								<td>192.35.22.21</td>
-								<td>235.265.789.452</td>
-								<td>ARP</td>
-								<td>890</td>
-								<td>Standard query 0x0549 ANY DESKTOP-5JC0H3O</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -100,70 +141,61 @@
 
 		<div class="container" id="detail_info">
 			<div class="panel-group" id="accordion">
-				<div class="panel panel-default">
+				<div class="panel panel-default" id="panel-1">
 					<div class="panel-heading">
-						<h4 class="panel-title">
+						<h4 class="panel-title" id="panel-title-1">
 							<a data-toggle="collapse" data-parent="#accordion"
-								href="#collapseOne"> 点击我进行展开，再次点击我进行折叠。第 1 部分 </a>
+								href="#collapseOne"></a>
 						</h4>
 					</div>
 					<div id="collapseOne" class="panel-collapse collapse">
-						<div class="panel-body">
-							Nihil anim keffiyeh helvetica,<br /> craft beer labore wes
-							anderson cred nesciunt sapiente ea proident.<br /> Ad vegan
-							excepteur butcher vice lomo.
-						</div>
+						<div class="panel-body" id="panel-body-1"></div>
 					</div>
 				</div>
-				<div class="panel panel-default">
+				<div class="panel panel-default" id="panel-2">
 					<div class="panel-heading">
-						<h4 class="panel-title">
+						<h4 class="panel-title" id="panel-title-2">
 							<a data-toggle="collapse" data-parent="#accordion"
 								href="#collapseTwo"> 点击我进行展开，再次点击我进行折叠。第 2 部分 </a>
 						</h4>
 					</div>
 					<div id="collapseTwo" class="panel-collapse collapse">
-						<div class="panel-body">Nihil anim keffiyeh helvetica, craft
-							beer labore wes anderson cred nesciunt sapiente ea proident. Ad
-							vegan excepteur butcher vice lomo.</div>
+						<div class="panel-body" id="panel-body-2"></div>
 					</div>
 				</div>
-				<div class="panel panel-default">
+				<div class="panel panel-default" id="panel-3">
 					<div class="panel-heading">
-						<h4 class="panel-title">
+						<h4 class="panel-title" id="panel-title-3">
 							<a data-toggle="collapse" data-parent="#accordion"
 								href="#collapseThree"> 点击我进行展开，再次点击我进行折叠。第 3 部分 </a>
 						</h4>
 					</div>
 					<div id="collapseThree" class="panel-collapse collapse">
-						<div class="panel-body">Nihil anim keffiyeh helvetica, craft
-							beer labore wes anderson cred nesciunt sapiente ea proident. Ad
-							vegan excepteur butcher vice lomo.</div>
+						<div class="panel-body" id="panel-body-3"></div>
 					</div>
 				</div>
-				<div class="panel panel-default">
+				<div class="panel panel-default" id="panel-3">
 					<div class="panel-heading">
-						<h4 class="panel-title">
+						<h4 class="panel-title" id="panel-title-4">
 							<a data-toggle="collapse" data-parent="#accordion"
 								href="#collapseFour"> 点击我进行展开，再次点击我进行折叠。第 4 部分 </a>
 						</h4>
 					</div>
 					<div id="collapseFour" class="panel-collapse collapse">
-						<div class="panel-body">Nihil anim keffiyeh helvetica, craft
-							beer labore wes anderson cred nesciunt sapiente ea proident. Ad
-							vegan excepteur butcher vice lomo.</div>
+						<div class="panel-body" id="panel-body-4"></div>
 					</div>
 				</div>
 			</div>
 		</div>
 
 		<div class="container">
-			<textarea rows="12" id="bindata"></textarea>
+			<textarea rows="12" id="rawdata_hex"></textarea>
 		</div>
 	</div>
 </body>
 
-<script type="text/javascript" src="<%=basePath%>static/js/userInterface.js">
+<script type="text/javascript"
+	src="<%=basePath%>static/js/userInterface.js">
 
 </script>
 </html>

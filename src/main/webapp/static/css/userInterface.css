@@ -1,17 +1,17 @@
 @CHARSET "UTF-8";
 
-input#filter {
+input[type="text"]{
 	width: 100%;
 	background-color: transparent;
 	color: #fff;
 }
 
-#bindata {
+#rawdata_hex {
 	width: 100%;
 }
 
-#basic_info {
-	
+div#filter_div {
+	margin-top: 10px;
 }
 
 #detail_info{
@@ -22,7 +22,14 @@ input#filter {
 	background-color: #5e5e5e;
 	color: #ffffff;
 	overflow: visible;
-	max-height: 500px;
+}
+
+div.div_table_body {
+	max-height: 587px;
+	min-height: 587px;
+}
+.table-responsive > table.table_body{
+	margin-top: -40px;
 }
 
 .table-responsive > table{
@@ -36,6 +43,10 @@ input#filter {
 .table-responsive th, td {
 	text-align: center;
 }
+
+.table-hover > tbody > tr:hover > td {
+	background-color: #808080;
+} 
 
 .table-responsive tr.warning {
 	color: #333333;
