@@ -11,17 +11,14 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>My JSP 'terminal.jsp' starting page</title>
+<title>My LittleSniffer</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	
-	-->
+
 <!-- 自定义 -->
 <link href="<%=basePath%>static/css/userInterface.css" rel="stylesheet">
 
@@ -33,8 +30,11 @@
 <script src="<%=basePath%>static/js/bootstrap.min.js"></script>
 <script src="<%=basePath%>static/js/bootstrap-select.min.js"></script>
 
-
-
+<style type="text/css">
+tr.clicked_tr, .table-striped>tbody>tr.clicked_tr:nth-of-type(odd){
+	background-color: #408080;
+}
+</style>
 </head>
 
 <body background="<%=basePath%>static/images/bg.jpg">
@@ -66,8 +66,9 @@
 								<option>ARP</option>
 								<option>UDP</option>
 								<option>TCP</option>
-								<option>ICMP</option>
-								<option>IGMP</option>
+								<option>ICMPv4</option>
+								<option>IGMPv3</option>
+								<option>HTTP</option>
 							</select>
 						</div>
 						<div class="col-sm-3 col-xs-12">
@@ -98,13 +99,13 @@
 				<table class="table table-striped table_head">
 					<thead>
 						<tr>
-							<th>No.</th>
-							<th>Time</th>
-							<th>Source</th>
-							<th>Destination</th>
-							<th>Protocol</th>
-							<th>Length</th>
-							<th>Info</th>
+							<th style="width: 100px;">No.</th>
+							<th style="width: 100px;">Time</th>
+							<th style="width: 150px;">Source</th>
+							<th style="width: 150px;">Destination</th>
+							<th style="width: 50px;">Protocol</th>
+							<th style="width: 50px;">Length</th>
+							<th >Info</th>
 						</tr>
 					</thead>
 				</table>
@@ -113,12 +114,12 @@
 				<table class="table table-striped table_body table-hover">
 					<thead>
 						<tr>
-							<th>No.</th>
-							<th>Time</th>
-							<th>Source</th>
-							<th>Destination</th>
-							<th>Protocol</th>
-							<th>Length</th>
+							<th style="width: 100px;">No.</th>
+							<th style="width: 100px;">Time</th>
+							<th style="width: 150px;">Source</th>
+							<th style="width: 150px;">Destination</th>
+							<th style="width: 50px;">Protocol</th>
+							<th style="width: 50px;">Length</th>
 							<th>Info</th>
 						</tr>
 					</thead>
@@ -174,7 +175,20 @@
 						<div class="panel-body" id="panel-body-3"></div>
 					</div>
 				</div>
-				<div class="panel panel-default" id="panel-3">
+				
+				<div class="panel panel-default" id="panel-5">
+					<div class="panel-heading">
+						<h4 class="panel-title" id="panel-title-5">
+							<a data-toggle="collapse" data-parent="#accordion"
+								href="#collapseFive"> 点击我进行展开，再次点击我进行折叠。第 5部分 </a>
+						</h4>
+					</div>
+					<div id="collapseFive" class="panel-collapse collapse">
+						<div class="panel-body" id="panel-body-5"></div>
+					</div>
+				</div>
+				
+				<div class="panel panel-default" id="panel-4">
 					<div class="panel-heading">
 						<h4 class="panel-title" id="panel-title-4">
 							<a data-toggle="collapse" data-parent="#accordion"

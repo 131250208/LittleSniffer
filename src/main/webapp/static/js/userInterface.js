@@ -7,13 +7,14 @@ $(document).ready(function() {
 	$("div#panel-2").hide();
 	$("div#panel-3").hide();
 	$("div#panel-4").hide();
+	$("div#panel-5").hide();
 
 	new connectWebSocket();
 
 	$("button#capture").bind("click", function() {
 		startCapture();
 	});
-	
+
 	$("button#filter").bind("click", function() {
 		filter_all();
 	});
@@ -21,59 +22,58 @@ $(document).ready(function() {
 	$("input#filter").keyup(function(event) {
 		if (event.which == 13) {
 			startCapture();
-			$(this).val("");
 		}
 	});
 });
 
 var start_filter = 0;
-var types= "";
+var types = "";
 var src_ip_fil = "";
 var src_port_fil = "";
 var dest_ip_fil = "";
 var dest_port_fil = "";
 
-function filter(tr){
+function filter(tr) {
 	var type = tr.data("type");
 	var src_ip = tr.data("src_ip");
 	var src_port = tr.data("src_port");
 	var dest_ip = tr.data("dest_ip");
 	var dest_port = tr.data("dest_port");
-	
+
 	var type_included = 0;
-	for(var j = 0; j < types.length; ++j){
-		if(types[j] == type){
+	for (var j = 0; j < types.length; ++j) {
+		if (types[j] == type) {
 			type_included = 1;
 		}
 	}
-	if (type_included == 0||
-			src_ip_fil != "" && src_ip_fil != src_ip||
-			src_port_fil != "" && src_port_fil != src_port||
-			dest_ip_fil != "" && dest_ip_fil != dest_ip||
-			dest_port_fil != "" && dest_port_fil != dest_port){
+	if (type_included == 0 ||
+		src_ip_fil != "" && src_ip_fil != src_ip ||
+		src_port_fil != "" && src_port_fil != src_port ||
+		dest_ip_fil != "" && dest_ip_fil != dest_ip ||
+		dest_port_fil != "" && dest_port_fil != dest_port) {
 		tr.hide();
-	}else{
+	} else {
 		tr.show();
 	}
 }
 
-function filter_all(){
-	types= $("select#type_filter_selector").val();
+function filter_all() {
+	types = $("select#type_filter_selector").val();
 	src_ip_fil = $("input[name='src_ip']").val();
 	src_port_fil = $("input[name='src_port']").val();
 	dest_ip_fil = $("input[name='dest_ip']").val();
 	dest_port_fil = $("input[name='dest_port']").val();
-	
-	start_filter = 1;// inform func dealJson to filter new packets
-	
-	$("div#basic_info table.table_body tbody tr").each(function(){
+
+	start_filter = 1; // inform func dealJson to filter new packets
+
+	$("div#basic_info table.table_body tbody tr").each(function() {
 		filter($(this));
 	});
 }
 
 var ws = null;
 
-function connectWebSocket(){
+function connectWebSocket() {
 	$.ajax({
 		url : "http://localhost:8080/LittleSniffer/login/4",
 		success : function(result) {
@@ -85,11 +85,18 @@ function connectWebSocket(){
 			}
 		}
 	});
-};
+}
+;
 
 function startCapture() {
+	$("div#panel-1").hide();
+	$("div#panel-2").hide();
+	$("div#panel-3").hide();
+	$("div#panel-4").hide();
+	$("div#panel-5").hide();
+	$("textarea#rawdata_hex").val("");
 	$("div#basic_info table.table_body tbody").empty();
-	
+
 	var dev_num = $("#devices_selector").val();
 	var filter = $("input#filter").val();
 	if (filter == "") {
@@ -102,8 +109,21 @@ function startCapture() {
 		"filter" : filter,
 	};
 
-	ws.send(JSON.stringify(command));
-	$("div#filter_div").collapse("show");
+	// 先判断websocket有没有自动断开
+	if (ws.readyState != ws.OPEN) {
+		ws.close();
+		connectWebSocket();
+		setTimeout(function() {
+			ws.send(JSON.stringify(command));
+			$("input#filter").val("");
+			$("div#filter_div").collapse("show");
+		}, 250);
+	} else {
+		ws.send(JSON.stringify(command));
+		$("input#filter").val("");
+		$("div#filter_div").collapse("show");
+	}
+
 }
 
 function dealJsonMsg(msg) {
@@ -111,6 +131,9 @@ function dealJsonMsg(msg) {
 	var tag = job.tag;
 
 	switch (tag) {
+	case "message":
+		alert(job.message);
+		break;
 	case "devices_list":
 		var devices = job.devices;
 		var select = $('select#devices_selector');
@@ -126,46 +149,53 @@ function dealJsonMsg(msg) {
 	case "packet":
 		var tbody = $("div#basic_info table.table_body tbody");
 		var html = "<tr>" +
-						"<td>"+ job.ind +"</td>" +
-						"<td>"+ job.time +"</td>" +
-						"<td>"+ job.src_addr +"</td>" + 
-						"<td>"+ job.dest_addr +"</td>" +
-						"<td>"+ job.type +"</td>" +
-						"<td>"+ job.length +"</td>" +
-						"<td>"+ job.info +"</td>" +
-					"</tr>";
+			"<td>" + job.ind + "</td>" +
+			"<td>" + job.time + "</td>" +
+			"<td>" + job.src_addr + "</td>" +
+			"<td>" + job.dest_addr + "</td>" +
+			"<td>" + job.type + "</td>" +
+			"<td>" + job.length + "</td>" +
+			"<td>" + job.info + "</td>" +
+			"</tr>";
 		var tr = $(html);
-		
+
 		var panel_1 = $("div#panel-1");
 		var panel_2 = $("div#panel-2");
 		var panel_3 = $("div#panel-3");
 		var panel_4 = $("div#panel-4");
-		
+		var panel_5 = $("div#panel-5");
+
 		var panel_title_1 = $("h4#panel-title-1 > a");
 		var panel_title_2 = $("h4#panel-title-2 > a");
 		var panel_title_3 = $("h4#panel-title-3 > a");
 		var panel_title_4 = $("h4#panel-title-4 > a");
-		
+		var panel_title_5 = $("h4#panel-title-5 > a");
+
 		var panel_body_1 = $("div#panel-body-1");
 		var panel_body_2 = $("div#panel-body-2");
 		var panel_body_3 = $("div#panel-body-3");
 		var panel_body_4 = $("div#panel-body-4");
-		
-		tr.bind("click", function(){
-			$("textarea#rawdata_hex").val(job.pkg_hex);
-			
+		var panel_body_5 = $("div#panel-body-5");
+
+		tr.bind("click", function() {
+			$("textarea#rawdata_hex").val(job.pkg_hex_char);
+			$(this).addClass("clicked_tr");
+			$(this).siblings().removeClass("clicked_tr");
+//			$(this).css("background-color", "#ff8000");
+//			$(this).siblings().css("background-color", "initial");
 			panel_1.show();
 			panel_title_1.empty();
 			panel_title_1.append("Ethernet II");
 			panel_body_1.empty();
 			panel_body_1.append(job.eth_header);
-			
-			switch(job.type){
-			case "ARP":				
+
+			switch (job.type) {
+			case "ARP":
 				panel_2.show();
 				panel_3.hide();
 				panel_4.hide();
-				
+				panel_5.hide();
+
 				panel_title_2.empty();
 				panel_title_2.append("ARP Header");
 				panel_body_2.empty();
@@ -173,37 +203,80 @@ function dealJsonMsg(msg) {
 				break;
 			case "UDP":
 			case "TCP":
-			case "ICMP":
+			case "ICMPv4":
 				panel_2.show();
 				panel_3.show();
 				panel_4.show();
+				panel_5.hide();
 				
 				panel_title_2.empty();
 				panel_title_2.append("IP Header");
 				panel_body_2.empty();
 				panel_body_2.append(job.ipv4_header);
-				
+
 				panel_title_3.empty();
 				panel_title_3.append(job.type + " Header");
 				panel_body_3.empty();
 				panel_body_3.append(job.special_header);
-				
+
 				panel_title_4.empty();
 				panel_title_4.append("Data");
 				panel_body_4.empty();
 				panel_body_4.append(job.data);
 				break;
+			case "IGMPv3":
+				panel_2.show();
+				panel_3.show();
+				panel_4.hide();
+				panel_5.hide();
+				
+				panel_title_2.empty();
+				panel_title_2.append("IP Header");
+				panel_body_2.empty();
+				panel_body_2.append(job.ipv4_header);
+
+				panel_title_3.empty();
+				panel_title_3.append(job.type + " Header");
+				panel_body_3.empty();
+				panel_body_3.append(job.special_header);
+				break;
+			case "HTTP":
+				panel_2.show();
+				panel_3.show();
+				panel_4.show();
+				panel_5.show();
+				
+				panel_title_2.empty();
+				panel_title_2.append("IP Header");
+				panel_body_2.empty();
+				panel_body_2.append(job.ipv4_header);
+
+				panel_title_3.empty();
+				panel_title_3.append("TCP Header");
+				panel_body_3.empty();
+				panel_body_3.append(job.special_header);
+
+				panel_title_4.empty();
+				panel_title_4.append("Data");
+				panel_body_4.empty();
+				panel_body_4.append(job.data);
+				
+				panel_title_5.empty();
+				panel_title_5.append("HTTP Header");
+				panel_body_5.empty();
+				panel_body_5.append(job.app_header);
+				break;
 			}
 		});
-		
+
 		tr.data("type", job.type);
 		tr.data("src_ip", job.src_ip);
 		tr.data("dest_ip", job.dest_ip);
 		tr.data("src_port", job.src_port);
 		tr.data("dest_port", job.dest_port);
-		
+
 		tbody.append(tr);
-		if(start_filter){
+		if (start_filter) {
 			filter(tr);
 		}
 		break;

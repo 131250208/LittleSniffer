@@ -1,5 +1,3 @@
-@CHARSET "UTF-8";
-
 input[type="text"]{
 	width: 100%;
 	background-color: transparent;
@@ -8,6 +6,7 @@ input[type="text"]{
 
 #rawdata_hex {
 	width: 100%;
+	margin-bottom: 20px;
 }
 
 div#filter_div {
@@ -44,10 +43,12 @@ div.div_table_body {
 	text-align: center;
 }
 
-.table-hover > tbody > tr:hover > td {
-	background-color: #808080;
+.table-hover > tbody > tr:hover > td{
+	background-color: #408080;
 } 
 
 .table-responsive tr.warning {
 	color: #333333;
 }
+
+
